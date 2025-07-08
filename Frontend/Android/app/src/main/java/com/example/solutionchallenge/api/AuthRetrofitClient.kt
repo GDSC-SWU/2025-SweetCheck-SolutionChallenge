@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
 
 object AuthRetrofitClient {
-    private const val BASE_URL = "http://34.22.103.49:8000"  // 로그인 서버 주소
+    private const val BASE_URL = "http://192.168.0.12:8000/"  // 로그인 서버 주소
 
     private val okHttpClient = OkHttpClient.Builder().build()
 
