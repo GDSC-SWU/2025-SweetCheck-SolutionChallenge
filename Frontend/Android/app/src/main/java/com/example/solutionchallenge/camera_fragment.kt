@@ -35,6 +35,7 @@ class CameraFragment : Fragment() {
     private lateinit var photoFile: File
     private var savedPhotoUri: Uri? = null
 
+    // ✅ 메뉴인지 레코드인지 목적 저장
     private var cameraPurpose: String = "record"
 
     override fun onCreateView(
@@ -45,6 +46,7 @@ class CameraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // ✅ Bundle에서 purpose 가져오기
         cameraPurpose = arguments?.getString("cameraPurpose") ?: "record"
 
         viewFinder = view.findViewById(R.id.viewFinder)
@@ -52,6 +54,7 @@ class CameraFragment : Fragment() {
         val switchCameraButton = view.findViewById<ImageButton>(R.id.switchCameraButton)
         val galleryButton = view.findViewById<ImageButton>(R.id.galleryButton)
 
+        // 카메라 권한 확인
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
             != PackageManager.PERMISSION_GRANTED
         ) {
@@ -64,10 +67,12 @@ class CameraFragment : Fragment() {
             startCamera()
         }
 
+        // 촬영 버튼
         captureButton.setOnClickListener {
             takePhoto()
         }
 
+        // 전면/후면 전환
         switchCameraButton.setOnClickListener {
             lensFacing = if (lensFacing == CameraSelector.LENS_FACING_BACK)
                 CameraSelector.LENS_FACING_FRONT
@@ -76,6 +81,7 @@ class CameraFragment : Fragment() {
             startCamera()
         }
 
+        // 갤러리에서 선택
         galleryButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.type = "image/*"
@@ -118,7 +124,7 @@ class CameraFragment : Fragment() {
             outputOptions,
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
-                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     savedPhotoUri = Uri.fromFile(photoFile)
                     Toast.makeText(requireContext(), "📸 사진 저장 완료!", Toast.LENGTH_SHORT).show()
                     navigateToNextFragment()
@@ -132,6 +138,7 @@ class CameraFragment : Fragment() {
     }
 
     private fun navigateToNextFragment() {
+        // ✅ 목적에 따라 어디로 보낼지 분기
         val fragment = if (cameraPurpose == "menu") {
             MenuScanStep1Fragment().apply {
                 arguments = Bundle().apply {
@@ -152,6 +159,7 @@ class CameraFragment : Fragment() {
             .commit()
     }
 
+    // ✅ 갤러리에서 이미지 선택해도 목적 따라 동일하게 처리
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

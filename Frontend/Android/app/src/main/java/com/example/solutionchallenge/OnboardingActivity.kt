@@ -59,6 +59,15 @@ class OnboardingActivity : AppCompatActivity() {
                 val response = AuthRetrofitClient.apiService.login(TokenRequest(idToken))
                 Log.d("OnboardingActivity", "서버 인증 성공: $response")
 
+
+                val prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                prefs.edit()
+                    .putString("uid", response.uid)
+                    .putString("email", response.email)
+                    .putString("name", response.name)
+                    .putString("profileImage", response.profileImage)
+                    .apply()
+
                 // 서버에서 받은 유저 정보(response) 활용 가능
                 startActivity(Intent(this@OnboardingActivity, NicknameSetupActivity::class.java))
 

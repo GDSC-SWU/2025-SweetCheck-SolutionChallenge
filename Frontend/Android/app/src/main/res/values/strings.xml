@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SweetCheck</string>
 
-    <string name="default_web_client_id">1:130104063857:android:c6773d81bdfc370570a8d0</string>
+    <string name="default_web_client_id">130104063857-fd68cchu1ks9504ncdvlv15k7gjjmq2f.apps.googleusercontent.com</string>
     <string name="home">Home</string>
     <string name="camera">Camera</string>
     <string name="archive">Archive</string>

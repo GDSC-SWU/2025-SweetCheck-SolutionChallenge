@@ -4,14 +4,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.*
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.solutionchallenge.api.RetrofitClient
 import com.example.solutionchallenge.api.toMultipartBodyPart
 import com.example.solutionchallenge.data.FoodItem
 import kotlinx.coroutines.launch
-import java.io.File
 
 class RecordStep2Fragment : Fragment() {
 
@@ -37,15 +37,11 @@ class RecordStep2Fragment : Fragment() {
             return
         }
 
-        val morningFile = uriToFile(morningUri) ?: return
-        val lunchFile = uriToFile(lunchUri) ?: return
-        val dinnerFile = uriToFile(dinnerUri) ?: return
-        val snackFile = uriToFile(snackUri) ?: return
-
-        val morningPart = morningFile.toMultipartBodyPart("morning")
-        val lunchPart = lunchFile.toMultipartBodyPart("lunch")
-        val dinnerPart = dinnerFile.toMultipartBodyPart("dinner")
-        val snackPart = snackFile.toMultipartBodyPart("snack")
+        // ✅ Uri → Multipart 직접
+        val morningPart = morningUri.toMultipartBodyPart("morning", requireContext())
+        val lunchPart = lunchUri.toMultipartBodyPart("lunch", requireContext())
+        val dinnerPart = dinnerUri.toMultipartBodyPart("dinner", requireContext())
+        val snackPart = snackUri.toMultipartBodyPart("snack", requireContext())
 
         lifecycleScope.launch {
             try {
@@ -84,7 +80,7 @@ class RecordStep2Fragment : Fragment() {
                             }
                         }
 
-                        // 결과를 Step3로 넘기기
+                        // 결과 Step3로 넘기기
                         val bundle = Bundle().apply {
                             putString("mealType", "Daily Total: ${it.dailyTotalSugar}g (${it.dailyRiskLevel})")
                             putSerializable("foodList", foodList)
@@ -101,23 +97,6 @@ class RecordStep2Fragment : Fragment() {
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "통신 실패: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-        }
-    }
-
-    private fun uriToFile(uri: Uri): File? {
-        val contentResolver = requireContext().contentResolver
-        val fileName = "temp_${System.currentTimeMillis()}.jpg"
-        val tempFile = File(requireContext().cacheDir, fileName)
-
-        return try {
-            contentResolver.openInputStream(uri)?.use { inputStream ->
-                tempFile.outputStream().use { outputStream ->
-                    inputStream.copyTo(outputStream)
-                }
-            }
-            tempFile
-        } catch (e: Exception) {
-            null
         }
     }
 }

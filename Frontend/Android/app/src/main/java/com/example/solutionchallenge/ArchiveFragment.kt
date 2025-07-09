@@ -1,16 +1,22 @@
 package com.example.solutionchallenge
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.GridLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.kizitonwose.calendar.core.*
+import androidx.lifecycle.lifecycleScope
+import com.example.solutionchallenge.api.RetrofitClient
+import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.ViewContainer
 import com.kizitonwose.calendar.view.MonthDayBinder
+import kotlinx.coroutines.launch
 import java.time.*
 import java.time.format.DateTimeFormatter
 
@@ -23,8 +29,35 @@ class ArchiveFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_archive, container, false)
+        return inflater.inflate(R.layout.fragment_archive, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val prefs = requireActivity().getSharedPreferences("UserPrefs", AppCompatActivity.MODE_PRIVATE)
+        val token = prefs.getString("token", "") ?: ""
+        val uid = prefs.getString("uid", "") ?: ""
+
+        lifecycleScope.launch {
+            try {
+                val currentMonth = YearMonth.now().toString()  // "2025-07" 같은 형식
+                val response = RetrofitClient.apiService.getMonthlySummary(
+                    userId = uid,
+                    month = currentMonth
+                )
+
+                renderSugarCubes(view, response.totalSugar)
+
+                // TODO: response.dailyRecords 돌려서 캘린더에서 날짜에 표시 추가
+                // ex: 기록 있는 날짜에 점 찍기 등
+
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "데이터 로드 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // ✅ 캘린더 초기화
         calendarView = view.findViewById(R.id.calendarView)
         val currentMonth = YearMonth.now()
         val firstDayOfWeek = DayOfWeek.MONDAY
@@ -52,11 +85,6 @@ class ArchiveFragment : Fragment() {
                 addToBackStack(null)
             }
         }
-
-        // 예시: 당 섭취량 45g 시각화
-        renderSugarCubes(view, sugarGrams = 45f)
-
-        return view
     }
 
     private fun renderSugarCubes(view: View, sugarGrams: Float) {
@@ -78,7 +106,6 @@ class ArchiveFragment : Fragment() {
                     height = size
                     setMargins(margin, margin, margin, margin)
                 }
-
                 setBackgroundResource(
                     if (index < filledCubes) R.drawable.sugar_box_filled
                     else R.drawable.sugar_box_background

@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/i_ll_recommend_the_menu_for_you"
+            android:text="I'll recommend the menu for you"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginBottom="4dp" />
@@ -21,15 +21,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/recommend_a_menu_with_low_sugar_levels"
+            android:text="Recommend a menu with low sugar levels"
             android:textSize="14sp"
             android:layout_marginBottom="16dp" />
 
-        <!-- 분석 결과 -->
-        <LinearLayout
-            android:id="@+id/menuResultContainer"
+        <!-- 분석 결과 텍스트 -->
+        <TextView
+            android:id="@+id/foodResultText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:background="#F5F5F5" />
     </LinearLayout>
 </ScrollView>
