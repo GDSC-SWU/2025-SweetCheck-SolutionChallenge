@@ -76,7 +76,13 @@ class RecordStep2Fragment : Fragment() {
                                     is String -> Regex("""\d+""").find(sugarInfo)?.value?.toIntOrNull() ?: 0
                                     else -> 0
                                 }
-                                foodList.add(FoodItem(name = "$mealName - $foodName", sugar = sugarValue))
+                                foodList.add(
+                                    FoodItem(
+                                        name = "$mealName - $foodName",
+                                        amount = 1,
+                                        sugar = sugarValue.toFloat()
+                                    )
+                                )
                             }
                         }
 
