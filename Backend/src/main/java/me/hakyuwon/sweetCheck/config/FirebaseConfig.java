@@ -10,17 +10,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 
 @Slf4j
 @Configuration
 public class FirebaseConfig {
+
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
         log.info("Initializing Firebase.");
-        FileInputStream serviceAccount =
-                new FileInputStream("/home/sonnet829/sweet-check-firebase-adminsdk-fbsvc-c98e76606d.json");
+
+        InputStream serviceAccount = getClass().getClassLoader()
+                .getResourceAsStream("sweet-check-firebase-adminsdk-fbsvc-c98e76606d.json");
+
+        if (serviceAccount == null) {
+            log.error("❌ Firebase JSON 파일 못 찾음!");
+            throw new RuntimeException("Firebase service account JSON 파일 못 찾음");
+        } else {
+            log.info("✅ Firebase JSON 파일 찾음!");
+        }
+
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -37,10 +47,10 @@ public class FirebaseConfig {
         return app;
     }
 
-        @Bean
-        public FirebaseAuth getFirebaseAuth() throws IOException {
-            return FirebaseAuth.getInstance(firebaseApp());
-        }
+    @Bean
+    public FirebaseAuth getFirebaseAuth() throws IOException {
+        return FirebaseAuth.getInstance(firebaseApp());
+    }
 
     @Bean
     public Firestore getFirestore() throws IOException {

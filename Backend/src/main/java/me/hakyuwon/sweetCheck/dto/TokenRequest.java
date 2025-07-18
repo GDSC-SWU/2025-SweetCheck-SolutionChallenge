@@ -1,8 +1,10 @@
 package me.hakyuwon.sweetCheck.dto;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+@Data
+@NoArgsConstructor
 public class TokenRequest {
-    private String token;
+    private String idToken; // ✅ 이름 통일!
 }

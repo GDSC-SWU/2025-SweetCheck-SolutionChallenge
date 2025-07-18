@@ -5,10 +5,12 @@
 
     <LinearLayout
         android:id="@+id/galleryContainer"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-</LinearLayout>
-    </ScrollView>
+        <!-- 갤러리 이미지나 날짜 TextView가 여기에 동적 추가됨 -->
+
+    </LinearLayout>
+</ScrollView>

@@ -73,7 +73,6 @@ interface ApiService {
     ): DailyMealResponse
 
 
-
     @PUT("/api/meals/{mealId}/confirm")
     suspend fun confirmMeal(
         @Path("mealId") mealId: String,

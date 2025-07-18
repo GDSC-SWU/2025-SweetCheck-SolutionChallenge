@@ -1,33 +1,73 @@
 package me.hakyuwon.sweetCheck.service;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import lombok.RequiredArgsConstructor;
+import me.hakyuwon.sweetCheck.dto.LoginResponse;
+import me.hakyuwon.sweetCheck.dto.TokenRequest;
+import org.springframework.stereotype.Service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.hakyuwon.sweetCheck.domain.User;
-import me.hakyuwon.sweetCheck.dto.LoginResponse;
 import me.hakyuwon.sweetCheck.dto.ProfileRequest;
-import me.hakyuwon.sweetCheck.dto.TokenRequest;
 import me.hakyuwon.sweetCheck.dto.WeeklyReportResponse;
 import me.hakyuwon.sweetCheck.enums.ErrorCode;
 import me.hakyuwon.sweetCheck.enums.Gender;
 import me.hakyuwon.sweetCheck.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
 
+import java.io.IOException;
+import java.util.Collections;
+
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
+
+    public LoginResponse login(TokenRequest tokenRequest) throws IOException {
+        try {
+            String idToken = tokenRequest.getIdToken();
+
+            // ✅ 안드로이드에서 발급한 웹 클라이언트 ID로 설정
+            String CLIENT_ID = "983762013559-1uq109l17mvci4peipqo0ua1stf3dd3t.apps.googleusercontent.com";
+
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                    new NetHttpTransport(),
+                    JacksonFactory.getDefaultInstance()
+            )
+                    .setAudience(Collections.singletonList(CLIENT_ID))
+                    .build();
+
+            GoogleIdToken googleIdToken = verifier.verify(idToken);
+
+            if (googleIdToken == null) {
+                throw new RuntimeException("Invalid ID token: verification failed");
+            }
+
+            GoogleIdToken.Payload payload = googleIdToken.getPayload();
+
+            String uid = payload.getSubject(); // 고유 사용자 ID
+            String email = payload.getEmail();
+            String name = (String) payload.get("name");
+            String picture = (String) payload.get("picture");
+
+            return new LoginResponse(uid, email, name, picture);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Google ID token verification failed: " + e.getMessage(), e);
+        }
+    }
 
     @Autowired
     private final Firestore firestore;
@@ -77,10 +117,10 @@ public class UserService {
         }
     }
 
-    // log in and verify token
+    /* log in and verify token
     public LoginResponse login(TokenRequest tokenRequest) {
         try {
-            String idToken = tokenRequest.getToken();
+            String idToken = tokenRequest.getIdToken();
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
 
             String uid = decodedToken.getUid();
@@ -93,7 +133,7 @@ public class UserService {
         } catch (FirebaseAuthException e) {
             throw new RuntimeException("Invalid Firebase ID token");
         }
-    }
+    }*/
 
     // delete user
     public void deleteUser(String uid) throws FirebaseAuthException {
@@ -189,3 +229,5 @@ public class UserService {
         }
     }
 }
+
+

@@ -1,11 +1,9 @@
 package me.hakyuwon.sweetCheck.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data // 👉 getter, setter, toString 다 포함!
 @AllArgsConstructor
 public class LoginResponse {
     private String uid;

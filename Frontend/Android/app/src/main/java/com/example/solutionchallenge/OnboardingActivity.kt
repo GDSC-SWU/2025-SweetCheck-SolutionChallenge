@@ -6,15 +6,13 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.example.solutionchallenge.api.AuthRetrofitClient
 import com.example.solutionchallenge.api.TokenRequest
 import com.example.solutionchallenge.NicknameSetupActivity
+import com.google.android.gms.auth.api.signin.*
+import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -39,16 +37,18 @@ class OnboardingActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("OnboardingActivity", "onActivityResult 호출됨")
+        Log.d("🌀Onboarding", "onActivityResult 호출됨")
 
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                Log.d("OnboardingActivity", "구글 계정 가져옴: ${account?.email}")
+                Log.d("🌀Onboarding", "구글 계정 가져옴: ${account?.email}")
+                Log.d("🌀Onboarding", "🔥 idToken = ${account?.idToken}")
+
                 account?.idToken?.let { sendTokenToServer(it) }
             } catch (e: ApiException) {
-                Log.e("OnboardingActivity", "구글 로그인 실패: ${e.message}")
+                Log.e("❌Onboarding", "구글 로그인 실패: ${e.message}", e)
             }
         }
     }
@@ -56,9 +56,10 @@ class OnboardingActivity : AppCompatActivity() {
     private fun sendTokenToServer(idToken: String) {
         lifecycleScope.launch {
             try {
-                val response = AuthRetrofitClient.apiService.login(TokenRequest(idToken))
-                Log.d("OnboardingActivity", "서버 인증 성공: $response")
+                Log.d("🌀Onboarding", "서버에 보낼 idToken = $idToken")
 
+                val response = AuthRetrofitClient.apiService.login(TokenRequest(idToken))
+                Log.d("✅Onboarding", "서버 인증 성공: $response")
 
                 val prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE)
                 prefs.edit()
@@ -68,11 +69,13 @@ class OnboardingActivity : AppCompatActivity() {
                     .putString("profileImage", response.profileImage)
                     .apply()
 
-                // 서버에서 받은 유저 정보(response) 활용 가능
                 startActivity(Intent(this@OnboardingActivity, NicknameSetupActivity::class.java))
 
+            } catch (e: HttpException) {
+                val errorBody = e.response()?.errorBody()?.string()
+                Log.e("❌Onboarding", "HTTP ${e.code()} 오류: $errorBody")
             } catch (e: Exception) {
-                Log.e("OnboardingActivity", "서버 인증 실패: ${e.message}")
+                Log.e("❌Onboarding", "서버 요청 실패: ${e.message}", e)
             }
         }
     }

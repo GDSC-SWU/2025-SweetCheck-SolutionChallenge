@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "983762013559",
+    "project_id": "sweet-check",
+    "storage_bucket": "sweet-check.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983762013559:android:5a23d66f9258983fe46572",
+        "android_client_info": {
+          "package_name": "com.example.solutionchallenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983762013559-jv1fbqj248ngfpu63hdf8ag34hs3tl7d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.solutionchallenge",
+            "certificate_hash": "686eac7a928fe08606640ec651e91e269a808286"
+          }
+        },
+        {
+          "client_id": "983762013559-1uq109l17mvci4peipqo0ua1stf3dd3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBktFr8VlLeuPjvaheu3GKGl-Bf73EQlD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "983762013559-1uq109l17mvci4peipqo0ua1stf3dd3t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
