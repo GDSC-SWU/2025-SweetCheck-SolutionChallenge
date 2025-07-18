@@ -39,7 +39,6 @@ public class UserService {
         try {
             String idToken = tokenRequest.getIdToken();
 
-            // ✅ 안드로이드에서 발급한 웹 클라이언트 ID로 설정
             String CLIENT_ID = "983762013559-1uq109l17mvci4peipqo0ua1stf3dd3t.apps.googleusercontent.com";
 
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
@@ -57,10 +56,13 @@ public class UserService {
 
             GoogleIdToken.Payload payload = googleIdToken.getPayload();
 
-            String uid = payload.getSubject(); // 고유 사용자 ID
+            String uid = payload.getSubject();
             String email = payload.getEmail();
             String name = (String) payload.get("name");
             String picture = (String) payload.get("picture");
+
+            // Firestore에 유저 정보 저장
+            saveOrUpdateUser(uid, email, name, picture);
 
             return new LoginResponse(uid, email, name, picture);
 
@@ -75,6 +77,8 @@ public class UserService {
     // first log in
     public String saveOrUpdateUser(String uid, String email, String name, String picture) {
         try {
+            log.info("🔥 [saveOrUpdateUser] called with uid={}, email={}, name={}", uid, email, name); // ✅ 추가
+
             DocumentReference docRef = firestore.collection("users").document(uid);
 
             Map<String, Object> userData = new HashMap<>();
@@ -85,14 +89,18 @@ public class UserService {
             DocumentSnapshot snapshot = docRef.get().get();
             if (!snapshot.exists()) {
                 userData.put("createdAt", new Date());
+                log.info("🆕 New user. Setting createdAt.");
+            } else {
+                log.info("📝 Existing user. Updating data.");
             }
 
             docRef.set(userData, SetOptions.merge()).get();  // 동기 처리
-            log.info("User saved or updated.");
+            log.info("✅ User saved or updated successfully in Firestore");
+
             return uid;
 
         } catch (Exception e) {
-            log.error("Error saving user", e);
+            log.error("❌ Error saving user to Firestore", e);
             throw new RuntimeException("Failed to save or update user");
         }
     }
@@ -104,7 +112,7 @@ public class UserService {
 
             Map<String, Object> userProfileData = new HashMap<>();
             userProfileData.put("gender", profileRequest.getGender());
-            userProfileData.put("height", profileRequest.getHeight());
+            userProfileData.put("height", profileRequest.getHeight());//위조 가능성
             userProfileData.put("weight", profileRequest.getWeight());
             userProfileData.put("age", profileRequest.getAge());
 
