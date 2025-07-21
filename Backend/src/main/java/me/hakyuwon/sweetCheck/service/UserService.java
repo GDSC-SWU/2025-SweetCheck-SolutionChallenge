@@ -111,10 +111,12 @@ public class UserService {
             DocumentReference docRef = firestore.collection("user_profiles").document(profileRequest.getUid());
 
             Map<String, Object> userProfileData = new HashMap<>();
+
             userProfileData.put("gender", profileRequest.getGender());
             userProfileData.put("height", profileRequest.getHeight());//위조 가능성
             userProfileData.put("weight", profileRequest.getWeight());
             userProfileData.put("age", profileRequest.getAge());
+            userProfileData.put("nickname", profileRequest.getNickname());
 
             // 'user_profiles' 컬렉션에 추가 정보 저장
             docRef.set(userProfileData, SetOptions.merge()).get();

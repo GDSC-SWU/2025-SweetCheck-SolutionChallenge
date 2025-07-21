@@ -13,4 +13,5 @@ public class ProfileRequest {
     private Integer height;
     private Integer weight;
     private Integer age;
+    private String nickname;
 }

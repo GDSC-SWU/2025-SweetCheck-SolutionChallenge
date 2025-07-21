@@ -1,11 +1,10 @@
+// 🔥 UserInfoInputActivity.kt
 package com.example.solutionchallenge
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
@@ -23,7 +22,7 @@ class UserInfoInputActivity : AppCompatActivity() {
     private lateinit var btnMale: Button
     private lateinit var btnFemale: Button
 
-    private var selectedGender: String? = null // "male" or "female"
+    private var selectedGender: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +35,6 @@ class UserInfoInputActivity : AppCompatActivity() {
         btnMale = findViewById(R.id.btnMale)
         btnFemale = findViewById(R.id.btnFemale)
 
-        val selectedColor = ContextCompat.getColor(this, R.color.orange_600)
-        val defaultColor = ContextCompat.getColor(this, R.color.gray_300)
-
-        // ✅ 성별 선택 버튼 클릭 처리
         btnMale.setOnClickListener {
             selectedGender = "male"
             btnMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.orange_600))
@@ -54,12 +49,10 @@ class UserInfoInputActivity : AppCompatActivity() {
             checkAllInputs()
         }
 
-        // ✅ 입력 변화 감지
         heightInput.addTextChangedListener { checkAllInputs() }
         weightInput.addTextChangedListener { checkAllInputs() }
         ageInput.addTextChangedListener { checkAllInputs() }
 
-        // ✅ 프로필 등록 + 다음 화면으로 이동
         nextButton.setOnClickListener {
             sendProfileToServer()
         }
@@ -83,29 +76,25 @@ class UserInfoInputActivity : AppCompatActivity() {
     private fun sendProfileToServer() {
         val prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
         val uid = prefs.getString("uid", "") ?: ""
-
-        val gender = selectedGender ?: ""
-        val height = heightInput.text.toString()
-        val weight = weightInput.text.toString()
-        val age = ageInput.text.toString()
+        val idToken = prefs.getString("idToken", "") ?: ""
 
         val request = UserProfileRequest(
             uid = uid,
-            gender = gender,
-            height = height,
-            weight = weight,
-            age = age
+            gender = selectedGender ?: "",
+            height = heightInput.text.toString().toIntOrNull(),
+            weight = weightInput.text.toString().toIntOrNull(),
+            age = ageInput.text.toString().toIntOrNull(),
+            nickname = null
         )
+
+        val bearerToken = "Bearer $idToken"
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.apiService.registerUserProfile(request)
+                RetrofitClient.apiService.registerProfile(bearerToken, request)
                 Toast.makeText(this@UserInfoInputActivity, "프로필 등록 성공!", Toast.LENGTH_SHORT).show()
-
-                // ✅ 다음 화면으로 이동
                 startActivity(Intent(this@UserInfoInputActivity, MainActivity::class.java))
                 finish()
-
             } catch (e: Exception) {
                 Toast.makeText(this@UserInfoInputActivity, "프로필 등록 실패: ${e.message}", Toast.LENGTH_SHORT).show()
             }
