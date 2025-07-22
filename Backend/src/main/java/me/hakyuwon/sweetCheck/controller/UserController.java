@@ -7,6 +7,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
 import me.hakyuwon.sweetCheck.dto.*;
+import me.hakyuwon.sweetCheck.dto.meal.DailyMealResponse;
 import me.hakyuwon.sweetCheck.service.MealService;
 import me.hakyuwon.sweetCheck.service.UserService;
 import me.hakyuwon.sweetCheck.util.SecurityUtil;
