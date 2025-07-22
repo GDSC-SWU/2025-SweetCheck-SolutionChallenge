@@ -77,7 +77,7 @@ public class UserService {
     // first log in
     public String saveOrUpdateUser(String uid, String email, String name, String picture) {
         try {
-            log.info("🔥 [saveOrUpdateUser] called with uid={}, email={}, name={}", uid, email, name); // ✅ 추가
+            log.info("[saveOrUpdateUser] called with uid={}, email={}, name={}", uid, email, name); // ✅ 추가
 
             DocumentReference docRef = firestore.collection("users").document(uid);
 
@@ -89,18 +89,18 @@ public class UserService {
             DocumentSnapshot snapshot = docRef.get().get();
             if (!snapshot.exists()) {
                 userData.put("createdAt", new Date());
-                log.info("🆕 New user. Setting createdAt.");
+                log.info("New user. Setting createdAt.");
             } else {
-                log.info("📝 Existing user. Updating data.");
+                log.info("Existing user. Updating data.");
             }
 
             docRef.set(userData, SetOptions.merge()).get();  // 동기 처리
-            log.info("✅ User saved or updated successfully in Firestore");
+            log.info("User saved or updated successfully in Firestore");
 
             return uid;
 
         } catch (Exception e) {
-            log.error("❌ Error saving user to Firestore", e);
+            log.error("Error saving user to Firestore", e);
             throw new RuntimeException("Failed to save or update user");
         }
     }
@@ -113,12 +113,12 @@ public class UserService {
             Map<String, Object> userProfileData = new HashMap<>();
 
             userProfileData.put("gender", profileRequest.getGender());
-            userProfileData.put("height", profileRequest.getHeight());//위조 가능성
+            userProfileData.put("height", profileRequest.getHeight());
             userProfileData.put("weight", profileRequest.getWeight());
             userProfileData.put("age", profileRequest.getAge());
             userProfileData.put("nickname", profileRequest.getNickname());
 
-            // 'user_profiles' 컬렉션에 추가 정보 저장
+            // user_profiles 컬렉션에 추가 정보 저장
             docRef.set(userProfileData, SetOptions.merge()).get();
             log.info("User profile saved or updated.");
         } catch (Exception e) {
