@@ -1,4 +1,4 @@
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import com.example.solutionchallenge.R
 
 class CameraMenuFragment : Fragment() {
     override fun onCreateView(

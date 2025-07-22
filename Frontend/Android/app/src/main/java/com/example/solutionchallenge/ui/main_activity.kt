@@ -1,8 +1,9 @@
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.solutionchallenge.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

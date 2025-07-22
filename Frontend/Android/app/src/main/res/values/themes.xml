@@ -1,28 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- ✅ 앱 전체 테마 -->
-    <style name="Theme.Solutionchallenge" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here -->
-        <item name="colorPrimary">#FF9800</item>
-        <item name="colorPrimaryVariant">#F57C00</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#009688</item>
-        <item name="colorSecondaryVariant">#00796B</item>
-        <item name="colorOnSecondary">#FFFFFF</item>
-        <item name="android:statusBarColor" tools:targetApi="l">#FF9800</item>
-        <item name="android:textColorPrimary">#000000</item>
-        <item name="android:textColor">#000000</item>
-    </style>
-
-    <!-- ✅ 식사 타입 버튼 스타일 -->
-    <style name="MealButton">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">100dp</item>
-        <item name="android:layout_margin">8dp</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:backgroundTint">#F5F5F5</item>
-        <!-- layout_columnWeight은 뷰에 직접 써야 해요 -->
-    </style>
 
 
 </resources>

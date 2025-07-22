@@ -11,10 +11,10 @@
         android:id="@+id/finalSummaryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/i_ll_write_it_down_like_this"
-        android:textSize="20sp"
+        android:text="I'll Write It Down\nLike This"
+        android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="30dp" />
 
     <!-- 식사 타입 -->
     <TextView

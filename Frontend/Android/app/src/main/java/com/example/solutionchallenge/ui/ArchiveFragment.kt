@@ -1,6 +1,5 @@
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.GridLayout
@@ -11,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import com.example.solutionchallenge.R
 import com.example.solutionchallenge.api.RetrofitClient
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.view.CalendarView

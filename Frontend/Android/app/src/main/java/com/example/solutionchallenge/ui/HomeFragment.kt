@@ -1,4 +1,4 @@
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
 import android.content.Intent
 import android.graphics.Color
@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.solutionchallenge.R
 import com.example.solutionchallenge.api.RetrofitClient
 import com.example.solutionchallenge.api.HomeDataResponse
 import com.example.solutionchallenge.data.DailyMealResponse // ✅ 추가!
