@@ -11,16 +11,16 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- ⬅️ 뒤로가기 버튼 뒤로가기 연동 필요-->
+        <!--  뒤로가기 버튼 -->
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="start"
             android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_media_previous" />
+            android:src="@drawable/ic_back_arrow"/>
 
-        <!-- 📌 문구 -->
+        <!-- 문구 -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
@@ -28,9 +28,10 @@
             android:text="When Did You\nEat This?"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="8dp"/>
 
-        <!-- 📅 날짜 선택 아이콘 7개 -->
+        <!-- 날짜 선택 아이콘 7개 -->
         <LinearLayout
             android:id="@+id/dateIconContainer"
             android:layout_width="match_parent"
@@ -87,7 +88,7 @@
 
         </LinearLayout>
 
-        <!-- 🍽 식사 타입 선택 -->
+        <!-- 식사 타입 선택 -->
         <androidx.gridlayout.widget.GridLayout
             android:id="@+id/mealTypeGrid"
             android:layout_width="match_parent"
@@ -99,7 +100,7 @@
             <Button
                 android:id="@+id/btnBreakfast"
                 android:text="@string/breakfast"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_margin="8dp"
                 android:layout_width="0dp"
@@ -109,7 +110,7 @@
             <Button
                 android:id="@+id/btnLunch"
                 android:text="@string/lunch"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_margin="8dp"
                 android:layout_width="0dp"
@@ -119,7 +120,7 @@
             <Button
                 android:id="@+id/btnDinner"
                 android:text="@string/dinner"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_margin="8dp"
                 android:layout_width="0dp"
@@ -129,14 +130,15 @@
             <Button
                 android:id="@+id/btnSnack"
                 android:text="@string/snack"
-                android:textSize="16sp"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 android:layout_margin="8dp"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 app:layout_columnWeight="1" />
         </androidx.gridlayout.widget.GridLayout>
 
-        <!-- 🖼 이미지 박스 4개 -->
+        <!-- 이미지 박스 4개 -->
         <LinearLayout
             android:id="@+id/imageBoxContainer"
             android:layout_width="match_parent"

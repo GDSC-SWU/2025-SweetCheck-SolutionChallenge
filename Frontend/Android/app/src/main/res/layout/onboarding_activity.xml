@@ -11,17 +11,20 @@
         android:id="@+id/logoImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_square" />
+        android:src="@mipmap/ic_launcher_foreground"
+        android:background="@android:color/transparent"/>
 
     <!-- "Light sweet, life sweet, Sugar check!" -->
     <TextView
         android:id="@+id/mainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/light_sweet_life_sweet_nsugar_check"
-        android:textSize="24sp"
+        android:text="Light sweet life sweet,\nSweet Check!"
+        android:textSize="26sp"
         android:textStyle="bold"
+        android:fontFamily="@font/nanum_bold"
         android:layout_marginTop="16dp"
+        android:lineSpacingExtra="5dp"
         android:gravity="left" />
 
     <!-- "Simplify the stats, empower the smart choices" -->
@@ -30,17 +33,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/simplify_the_stats_nempower_the_smart_choices"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:gravity="left"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="36dp"/>
 
     <!-- 구글 로그인 버튼 -->
     <Button
         android:id="@+id/googleSignInButton"
+        android:background="@drawable/bg_stroke_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_with_google"
+        android:textSize="15sp"
+        android:textStyle="bold"
         android:layout_marginTop="150dp"
         android:onClick="googleSignIn" />
 </LinearLayout>
