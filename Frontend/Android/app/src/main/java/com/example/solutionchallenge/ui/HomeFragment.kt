@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ✅ 상단 프로필 아이콘 → 로그아웃
+        // 상단 프로필 아이콘 → 로그아웃
         val profileIcon = view.findViewById<ImageButton>(R.id.profileIcon)
         profileIcon.setOnClickListener {
             logoutUser()
@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
         val prefs = requireActivity().getSharedPreferences("UserPrefs", AppCompatActivity.MODE_PRIVATE)
         val token = prefs.getString("token", "") ?: ""
 
-        // ✅ 1) 주간 그래프용 /api/home
+        // 1) 주간 그래프용 /api/home
         lifecycleScope.launch {
             try {
                 val response: HomeDataResponse =
@@ -56,11 +56,11 @@ class HomeFragment : Fragment() {
                 updateLineChart(view, response.dailyIntake)
 
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "그래프 로드 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "그래프 로드 실패: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // ✅ 2) 오늘 식사 요약용 /api/meals/{date}
+        // 2) 오늘 식사 요약용 /api/meals/{date}
         lifecycleScope.launch {
             try {
                 val today = LocalDate.now().toString() // ex: "2025-07-10"
@@ -71,8 +71,8 @@ class HomeFragment : Fragment() {
                 val todaySugar = dailyResponse.dailyTotalSugar
                 val meals = dailyResponse.meals
 
-                // 👉 TODO: UI에 오늘 당류/식사 정보 뿌리기 예시
-                println("✅ 오늘 총 당류: $todaySugar g")
+                // TODO: UI에 오늘 당류/식사 정보 뿌리기 예시
+                println(" 오늘 총 당류: $todaySugar g")
                 meals.forEach { meal ->
                     println("🍽️ ${meal.mealType} / 총 당류: ${meal.totalSugar}g")
                     meal.mealItems.forEach {
@@ -81,11 +81,11 @@ class HomeFragment : Fragment() {
                 }
 
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "오늘 식사 로드 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "오늘 식사 로드 실패: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // ✅ 카드 클릭 이벤트
+        // 카드 클릭 이벤트
         val photoCard = view.findViewById<CardView>(R.id.photoCard)
         val menuCard = view.findViewById<CardView>(R.id.menuCard)
         val viewMoreButton = view.findViewById<CardView>(R.id.viewMoreCard)
@@ -110,7 +110,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // ✅ 그래프 갱신 함수
+    // 그래프 갱신 함수
     private fun updateLineChart(view: View, intakeList: List<Int>) {
         val lineChart = view.findViewById<LineChart>(R.id.sugarLineChart)
 
@@ -155,7 +155,7 @@ class HomeFragment : Fragment() {
         lineChart.invalidate()
     }
 
-    // ✅ 로컬 로그아웃 함수
+    // 로컬 로그아웃 함수
     private fun logoutUser() {
         val prefs = requireActivity().getSharedPreferences("UserPrefs", AppCompatActivity.MODE_PRIVATE)
         prefs.edit().clear().apply()

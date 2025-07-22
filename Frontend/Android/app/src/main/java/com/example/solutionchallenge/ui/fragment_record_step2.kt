@@ -31,27 +31,40 @@ class RecordStep2Fragment : Fragment() {
 
         // 2) 끼니별 FoodItem 리스트 생성
         breakfastList = response.meals.morning.detectedClasses.map { name ->
-            FoodItem(name = response.meals.morning.refinedNames[name] ?: name,
+            val sugarValue = response.meals.morning.foodSugarData[name]
+            val sugar = if (sugarValue is Number) sugarValue.toFloat() else 0f
+            FoodItem(
+                name = response.meals.morning.refinedNames[name] ?: name,
                 amount = 1,
-                sugar  = (response.meals.morning.foodSugarData[name] as Double).toFloat())
+                sugar  = sugar )
         }.toMutableList()
 
         lunchList = response.meals.lunch.detectedClasses.map { name ->
-            FoodItem(name = response.meals.lunch.refinedNames[name] ?: name,
+            val sugarValue = response.meals.lunch.foodSugarData[name]
+            val sugar = if (sugarValue is Number) sugarValue.toFloat() else 0f
+            FoodItem(
+                name = response.meals.lunch.refinedNames[name] ?: name,
                 amount = 1,
-                sugar  = (response.meals.lunch.foodSugarData[name] as Double).toFloat())
+                sugar  = sugar )
         }.toMutableList()
 
         dinnerList = response.meals.dinner.detectedClasses.map { name ->
-            FoodItem(name = response.meals.dinner.refinedNames[name] ?: name,
+            val sugarValue = response.meals.dinner.foodSugarData[name]
+            val sugar = if (sugarValue is Number) sugarValue.toFloat() else 0f
+            FoodItem(
+                name = response.meals.dinner.refinedNames[name] ?: name,
                 amount = 1,
-                sugar  = (response.meals.dinner.foodSugarData[name] as Double).toFloat())
+                sugar  = sugar )
         }.toMutableList()
 
         snackList = response.meals.snack.detectedClasses.map { name ->
-            FoodItem(name = response.meals.snack.refinedNames[name] ?: name,
+            val sugarValue = response.meals.snack.foodSugarData[name]
+            val sugar = if (sugarValue is Number) sugarValue.toFloat() else 0f
+            FoodItem(
+                name = response.meals.snack.refinedNames[name] ?: name,
                 amount = 1,
-                sugar  = (response.meals.snack.foodSugarData[name] as Double).toFloat())
+                sugar = sugar
+            )
         }.toMutableList()
 
         // 3) RecyclerView + Adapter (기본 Breakfast)

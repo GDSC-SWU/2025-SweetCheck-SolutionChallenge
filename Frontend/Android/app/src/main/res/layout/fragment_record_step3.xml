@@ -27,46 +27,25 @@
         android:layout_marginBottom="30dp"
         android:layout_marginStart="8dp"/>
 
-    <!-- 식사 타입 -->
-    <TextView
-        android:id="@+id/mealType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/dinner"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp" />
-
-
-    <androidx.cardview.widget.CardView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="16dp"
-    android:layout_marginBottom="16dp">
+        android:background="#FFFFFF">
 
-
-    <LinearLayout
-            android:id="@+id/summaryContainer"
+        <LinearLayout
+            android:id="@+id/cardContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
-    </androidx.cardview.widget.CardView>
 
-
-    <TextView
-        android:id="@+id/totalSugarText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Less: 0g"
-        android:textSize="16sp"
-        android:layout_marginBottom="24dp" />
-
+    </ScrollView>
 
     <Button
         android:id="@+id/btnOk"
         android:layout_width="match_parent"
-        android:layout_marginTop="300dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/orange_600"
         android:text="@string/ok"
