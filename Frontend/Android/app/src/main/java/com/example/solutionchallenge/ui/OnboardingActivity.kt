@@ -1,4 +1,4 @@
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.solutionchallenge.api.AuthRetrofitClient
 import com.example.solutionchallenge.api.TokenRequest
-import com.example.solutionchallenge.NicknameSetupActivity
+import com.example.solutionchallenge.R
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.launch
@@ -69,7 +69,7 @@ class OnboardingActivity : AppCompatActivity() {
                     .putString("profileImage", response.profileImage)
                     .apply()
 
-                startActivity(Intent(this@OnboardingActivity, NicknameSetupActivity::class.java))
+                startActivity(Intent(this@OnboardingActivity, MainActivity::class.java))
 
             } catch (e: HttpException) {
                 val errorBody = e.response()?.errorBody()?.string()
