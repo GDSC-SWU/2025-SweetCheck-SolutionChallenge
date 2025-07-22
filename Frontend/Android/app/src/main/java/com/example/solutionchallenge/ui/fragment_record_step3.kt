@@ -1,9 +1,11 @@
 package com.example.solutionchallenge.ui
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.solutionchallenge.R
@@ -13,96 +15,119 @@ import com.example.solutionchallenge.api.RetrofitClient
 import kotlinx.coroutines.launch
 
 class RecordStep3Fragment : Fragment() {
-
-    private var mealId: String = ""   // AI가 draft 만들 때 받은 mealId
-    private var userId: String = "abc123"  // 예시
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_record_step3, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val titleText = view.findViewById<TextView>(R.id.finalSummaryTitle)
-        val mealText = view.findViewById<TextView>(R.id.mealType)
-        val summaryContainer = view.findViewById<LinearLayout>(R.id.summaryContainer)
-        val totalSugarText = view.findViewById<TextView>(R.id.totalSugarText)
+        // 번들에서 4개의 리스트 받아오기
+        val breakfastList = arguments
+            ?.getSerializable("finalBreakfast") as? ArrayList<FoodItem> ?: arrayListOf()
+        val lunchList = arguments
+            ?.getSerializable("finalLunch") as? ArrayList<FoodItem> ?: arrayListOf()
+        val dinnerList = arguments
+            ?.getSerializable("finalDinner") as? ArrayList<FoodItem> ?: arrayListOf()
+        val snackList = arguments
+            ?.getSerializable("finalSnack") as? ArrayList<FoodItem> ?: arrayListOf()
 
-        titleText.text = "AI 분석 결과 요약"
+        // Fragment 레이아웃의 컨테이너
+        val container = view.findViewById<LinearLayout>(R.id.cardContainer)
 
-        val prefs = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val token = prefs.getString("token", "") ?: ""
+        // Helper: 리스트에서 totalSugar와 riskLevel 계산
+        fun calcTotalSugar(items: List<FoodItem>): Float =
+            items.sumOf { it.sugar.toDouble() }.toFloat()
 
-        mealId = arguments?.getString("mealId") ?: ""  // ✅ mealId 꼭 받아오기
-
-        // ✅ AI가 준 초안 보여주기 예시 (너가 이미 하고 있던 부분)
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.apiService.getMealResults("Bearer $token")
-
-                mealText.text = "분석 일자: ${response.date}"
-                var total = 0f
-
-                response.meals.forEach { (mealTypeKey, mealDetail) ->
-                    mealDetail.foods.forEach { food ->
-                        val itemView = layoutInflater.inflate(R.layout.item_food_summary, summaryContainer, false)
-                        itemView.findViewById<TextView>(R.id.foodName).text = "$mealTypeKey - ${food.name}"
-                        itemView.findViewById<TextView>(R.id.foodSugar).text = "${food.sugar}g"
-                        summaryContainer.addView(itemView)
-                        total += food.sugar
-                    }
-                }
-
-                totalSugarText.text = "총 당류: ${total}g (총 당류 큐브: ${response.totalSugarCubes})"
-
-                // ✅ 수정 값도 변수에 보관해두면 됨 (예: 수정된 foods 리스트)
-
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), "서버 오류: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+        // TODO: fast api에서 전달받은 당류가 몇 그램 기준인지 확인 후 계산 거쳐야 함
+        fun calcRiskLevel(total: Float): String = when {
+            total > 15f -> "Excess"   // 과다
+            total > 8f -> "Proper"   // 적정
+            else         -> "Less"     // 부족
         }
 
-        view.findViewById<Button>(R.id.btnOk).setOnClickListener {
-            confirmMeal()
+        listOf(
+            Triple("Breakfast", breakfastList, calcTotalSugar(breakfastList)),
+            Triple("Lunch", lunchList, calcTotalSugar(lunchList)),
+            Triple("Dinner", dinnerList, calcTotalSugar(dinnerList)),
+            Triple("Snack", snackList, calcTotalSugar(snackList))
+        ).forEach { (meal, list, total) ->
+            val card = createMealCard(meal, list, total, calcRiskLevel(total))
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                bottomMargin = 20.dpToPx(requireContext())
+            }
+            card.layoutParams = layoutParams
+            container.addView(card)
         }
     }
 
-    private fun confirmMeal() {
-        lifecycleScope.launch {
-            try {
-                // ✅ 수정된 데이터 예시
-                val updatedFoods = listOf(
-                    FoodItem(name = "Pasta", amount = 150, sugar = 20f),
-                    FoodItem(name = "Salad", amount = 100, sugar = 5f)
+    private fun createMealCard(
+        mealTitle: String,
+        items: List<FoodItem>,
+        totalSugar: Float,
+        riskLevel: String
+    ): View {
+        val card = layoutInflater.inflate(R.layout.item_food_summary, null, false)
+        val mealCardView = card.findViewById<CardView>(R.id.mealCardView)
+        val titleView = card.findViewById<TextView>(R.id.mealTitle)
+        val foodLayout = card.findViewById<LinearLayout>(R.id.foodListLayout)
+        val riskText = card.findViewById<TextView>(R.id.riskLevelText)
+        val totalSugarText = card.findViewById<TextView>(R.id.totalSugarText)
+        val backgroundContainer = card.findViewById<FrameLayout>(R.id.cardBackgroundContainer)
+
+        // 제목
+        titleView.text = mealTitle
+
+        // 음식 목록
+        items.forEach { item ->
+            val row = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
                 )
+            }
+            val nameView = TextView(requireContext()).apply {
+                text = "• ${item.name}"
+                textSize = 16f
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            }
+            val sugarView = TextView(requireContext()).apply {
+                text = "${item.sugar}g"
+                textSize = 16f
+            }
+            row.addView(nameView)
+            row.addView(sugarView)
+            foodLayout.addView(row)
+        }
 
-                val confirmRequest = ConfirmRequest(
-                    userId = userId,
-                    imageUrl = "https://your-bucket/image.jpg",
-                    mealDateTime = "2025-05-03T18:30:00",
-                    mealType = "Dinner",
-                    totalSugar = 25f,
-                    items = updatedFoods
-                )
+        // 총 당류
+        totalSugarText.text = "${totalSugar}g"
 
-                val response = RetrofitClient.apiService.confirmMeal(
-                    mealId = mealId,
-                    body = confirmRequest
-                )
-
-                if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "식단 확정 완료!", Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, HomeFragment())
-                        .commit()
-                } else {
-                    Toast.makeText(requireContext(), "확정 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Toast.makeText(requireContext(), "에러: ${e.message}", Toast.LENGTH_SHORT).show()
+        // 위험도별 색상 & 테두리
+        when (riskLevel.lowercase()) {
+            "proper" -> {
+                riskText.setTextColor(Color.parseColor("#009F1D"))
+                backgroundContainer.setBackgroundResource(R.drawable.bg_card_proper)
+            }
+            "less" -> {
+                riskText.setTextColor(Color.parseColor("#FFBB00"))
+                backgroundContainer.setBackgroundResource(R.drawable.bg_card_less)
+            }
+            "excess" -> {
+                riskText.setTextColor(Color.parseColor("#F77803"))
+                backgroundContainer.setBackgroundResource(R.drawable.bg_card_excess)
+            }
+            else -> {
+                riskText.setTextColor(Color.DKGRAY)
             }
         }
+        return card
     }
 }
+
+fun Int.dpToPx(context: Context): Int =
+    (this * context.resources.displayMetrics.density).toInt()
