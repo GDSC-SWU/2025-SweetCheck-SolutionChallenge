@@ -6,13 +6,64 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
+    <!-- ⬜ 상단 바 (흰색 배경) -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="1dp"
+        android:id="@+id/logobar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardElevation="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_launcher"/>
+            <!-- 앱 로고 이름 -->
+            <TextView
+                android:id="@+id/appTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/logo"
+                android:layout_marginStart="8dp"
+                android:layout_centerVertical="true"
+                android:text="Sweet check"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:textColor="#F77803"
+                android:fontFamily="@font/nanum_bold"/>
+
+            <!-- 프로필 버튼 -->
+            <ImageButton
+                android:id="@+id/profileIcon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="내 프로필"
+                android:src="@android:drawable/ic_menu_myplaces" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
     <!-- ScrollView로 전체 스크롤 가능 -->
     <ScrollView
         android:id="@+id/homeScroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logobar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -23,61 +74,32 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- ⬜ 상단 바 (흰색 배경) -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginBottom="1dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
-
-                    <!-- 앱 로고 이름 -->
-                    <TextView
-                        android:id="@+id/appTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/sweetcheck"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <!-- 프로필 버튼 -->
-                    <ImageButton
-                        android:id="@+id/profileIcon"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentEnd="true"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="내 프로필"
-                        android:src="@android:drawable/ic_menu_myplaces" />
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
             <!-- 안내 텍스트 -->
             <TextView
                 android:id="@+id/introText1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/if_you_input_what_you_ate_ni_ll_give_you_a_sugar_management_solution"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginTop="4dp"/>
+                android:fontFamily="@font/nanum_bold"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/introText2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/record_what_you_ate_more_than_three_times_nfor_sugar_level_analysis"
+                android:textSize="14sp"
+                android:layout_marginTop="12dp"/>
 
             <!-- 네모 상자 안에 텍스트 버튼 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/viewMoreCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_gravity="start"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
@@ -87,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/view_more"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:padding="8dp"
                     android:textStyle="bold"/>
             </androidx.cardview.widget.CardView>
@@ -100,25 +122,17 @@
                 android:layout_marginTop="16dp"
                 android:contentDescription="당 섭취 분석 그래프" />
 
-            <TextView
-                android:id="@+id/introText2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/record_what_you_ate_more_than_three_times_nfor_sugar_level_analysis"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp"/>
+            <!--  막대 그래프 -->
 
-            <!-- 🔹 막대 그래프 -->
-
-            <!-- 🔸 사진 업로드 안내 카드 -->
+            <!-- 사진 업로드 안내 카드 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/photoCard"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="40dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/brawn_600">
+                app:cardBackgroundColor="#F77803">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -132,13 +146,14 @@
                         android:text="@string/record_what_you_ate_today_nwith_a_single_photo"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:fontFamily="@font/nanum_bold"
                         android:textColor="@color/gray_100"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/photoCardText1"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:text="@string/i_ll_give_you_the_right_behavioural_feedback"
                         android:textColor="@color/gray_100"
                         android:textSize="14sp" />
@@ -161,14 +176,14 @@
                 android:text="@string/today_you_ate_this_kind_of_food"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="22dp"/>
 
-            <!-- 🍱 아침/점심/저녁/간식 2x2 카드 -->
+            <!-- 아침/점심/저녁/간식 2x2 카드 -->
             <androidx.gridlayout.widget.GridLayout
                 android:id="@+id/mealCardGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 app:columnCount="2">
 
                 <!-- 아침 -->
@@ -178,120 +193,145 @@
                     android:layout_margin="8dp"
                     app:layout_columnWeight="1"
                     app:cardCornerRadius="16dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="@string/breakfast"
-                        android:textSize="20sp"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="Less"
-                        android:textColor="@color/orange_300"
-                        android:textSize="15sp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginLeft="10dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="당류 약 18g\n Clam Pasta\n Pickle\n Baguett"
-                        android:textSize="15sp"
-                        android:layout_marginTop="45dp"
-                        android:layout_marginLeft="10dp"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/breakfast"
+                            android:textSize="18sp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="Less"
+                            android:textColor="@color/orange_300"
+                            android:textSize="15sp"
+                            android:layout_marginTop="3dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="당류 약 18g\nClam Pasta\nPickle\nBaguett"
+                            android:textSize="12sp"
+                            android:lineSpacingExtra="5dp"
+                            android:layout_marginTop="3dp"/>
+                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
-                <!-- 점심 카드 -->
+                <!-- 점심 -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_margin="8dp"
                     app:layout_columnWeight="1"
-                    app:cardCornerRadius="20dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="@string/lunch"
-                        android:textSize="18sp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="proper"
-                        android:textColor="@color/green"
-                        android:textSize="15sp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginLeft="10dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="당류 약 18g\n Clam Pasta\n Pickle\n Baguett"
-                        android:textSize="15sp"
-                        android:layout_marginTop="45dp"
-                        android:layout_marginLeft="10dp"/>
+                    app:cardCornerRadius="16dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/lunch"
+                            android:textSize="18sp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="Proper"
+                            android:textColor="@color/green"
+                            android:textSize="15sp"
+                            android:layout_marginTop="3dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="당류 약 18g\nClam Pasta\nPickle\nBaguett"
+                            android:textSize="12sp"
+                            android:lineSpacingExtra="5dp"
+                            android:layout_marginTop="3dp"/>
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- 저녁 카드 -->
+                <!-- 저녁 -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_margin="8dp"
                     app:layout_columnWeight="1"
-                    app:cardCornerRadius="20dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="@string/dinner"
-                        android:textSize="18sp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="Excess"
-                        android:textColor="@color/orange_600"
-                        android:textSize="15sp"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginLeft="10dp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="당류 약 23g\n Clam Pasta\n Pickle\n Baguett\n 3 others"
-                        android:textSize="15sp"
-                        android:layout_marginTop="45dp"
-                        android:layout_marginLeft="10dp"/>
+                    app:cardCornerRadius="16dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/dinner"
+                            android:textSize="18sp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="Access"
+                            android:textColor="@color/brawn_600"
+                            android:textSize="15sp"
+                            android:layout_marginTop="3dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="당류 약 18g\nClam Pasta\nPickle\nBaguett"
+                            android:textSize="12sp"
+                            android:lineSpacingExtra="5dp"
+                            android:layout_marginTop="3dp"/>
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- 간식 카드 -->
+                <!-- 간식 -->
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/snackCard"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_margin="8dp"
                     app:layout_columnWeight="1"
-                    app:cardCornerRadius="20dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left"
-                        android:text="@string/snack"
-                        android:textSize="18sp"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/record"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                    app:cardCornerRadius="16dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left"
+                            android:text="@string/snack"
+                            android:textSize="18sp"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/record"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            />
+
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
             </androidx.gridlayout.widget.GridLayout>
 
             <!-- 메뉴 예측 카드 -->
@@ -304,6 +344,7 @@
                 app:cardElevation="2dp">
 
                 <RelativeLayout
+                    android:background="@drawable/bg_stroke_btn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="16dp">
