@@ -19,7 +19,9 @@
             android:text="Are You Sure\nYou Ate This?"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="8dp"/>
 
         <!-- TabLayout -->
         <com.google.android.material.tabs.TabLayout
@@ -28,30 +30,27 @@
             android:layout_height="wrap_content"
             app:tabMode="fixed"
             app:tabGravity="fill"
+            app:tabTextAppearance="@style/tabTextSize"
             android:layout_marginBottom="20dp">
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabBreakfast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="Breakfast"/>
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabLunch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="Lunch"/>
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabDinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="Dinner"/>
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabSnack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:text="Snack"/>
         </com.google.android.material.tabs.TabLayout>
 
