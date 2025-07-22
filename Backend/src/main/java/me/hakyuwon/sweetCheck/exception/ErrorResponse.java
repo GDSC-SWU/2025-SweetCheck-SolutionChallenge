@@ -1,4 +1,4 @@
-package me.hakyuwon.sweetCheck.dto;
+package me.hakyuwon.sweetCheck.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

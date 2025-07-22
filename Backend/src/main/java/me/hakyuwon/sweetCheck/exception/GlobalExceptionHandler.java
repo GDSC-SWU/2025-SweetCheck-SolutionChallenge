@@ -1,6 +1,5 @@
 package me.hakyuwon.sweetCheck.exception;
 
-import me.hakyuwon.sweetCheck.dto.ErrorResponse;
 import me.hakyuwon.sweetCheck.enums.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

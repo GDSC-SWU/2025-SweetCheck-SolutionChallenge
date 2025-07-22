@@ -3,20 +3,14 @@ package me.hakyuwon.sweetCheck.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.hakyuwon.sweetCheck.domain.MealItem;
-import me.hakyuwon.sweetCheck.dto.DailyMealResponse;
-import me.hakyuwon.sweetCheck.dto.MealRequest;
-import me.hakyuwon.sweetCheck.enums.MealType;
+import me.hakyuwon.sweetCheck.dto.meal.DailyMealResponse;
+import me.hakyuwon.sweetCheck.dto.meal.MealRequest;
 import me.hakyuwon.sweetCheck.service.AnalyzeService;
 import me.hakyuwon.sweetCheck.service.MealService;
 import me.hakyuwon.sweetCheck.util.SecurityUtil;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.*;

@@ -1,14 +1,12 @@
 package me.hakyuwon.sweetCheck.service;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import me.hakyuwon.sweetCheck.dto.DailyMealResponse;
+import me.hakyuwon.sweetCheck.dto.meal.DailyMealResponse;
 import me.hakyuwon.sweetCheck.dto.RecommendResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 

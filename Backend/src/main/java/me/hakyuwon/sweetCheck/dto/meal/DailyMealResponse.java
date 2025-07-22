@@ -1,4 +1,4 @@
-package me.hakyuwon.sweetCheck.dto;
+package me.hakyuwon.sweetCheck.dto.meal;
 
 import lombok.Getter;
 import lombok.Setter;
