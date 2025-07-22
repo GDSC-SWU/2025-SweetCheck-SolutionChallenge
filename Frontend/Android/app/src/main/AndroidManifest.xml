@@ -7,8 +7,6 @@
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
-
-
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -25,7 +23,7 @@
         tools:targetApi="31">
 
         <!-- SplashActivity: 로고 화면 -->
-        <activity android:name=".SplashActivity" android:exported="true">
+        <activity android:name=".ui.SplashActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -44,19 +42,19 @@
         </provider>
 
         <!-- MainActivity: 하단 네비게이션 및 프래그먼트 -->
-        <activity android:name=".MainActivity" android:exported="true" />
+        <activity android:name=".ui.MainActivity" android:exported="true" />
 
         <!-- OnboardingActivity: 구글 로그인 온보딩 화면 -->
-        <activity android:name=".OnboardingActivity" android:exported="true" />
+        <activity android:name=".ui.OnboardingActivity" android:exported="true" />
 
         <!-- NicknameSetupActivity: 닉네임 설정 -->
-        <activity android:name=".NicknameSetupActivity" android:exported="true" />
+        <activity android:name=".ui.NicknameSetupActivity" android:exported="true" />
 
         <!-- UserInfoInputActivity: 신체 정보 입력 -->
-        <activity android:name=".UserInfoInputActivity" android:exported="true" />
+        <activity android:name=".ui.UserInfoInputActivity" android:exported="true" />
 
         <!-- StatisticsActivity: 통계 화면 -->
-        <activity android:name=".StatisticsActivity" android:exported="true" />
+        <activity android:name=".ui.StatisticsActivity" android:exported="true" />
 
     </application>
 
