@@ -1,5 +1,5 @@
 // 🔥 UserInfoInputActivity.kt
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import com.example.solutionchallenge.R
 import com.example.solutionchallenge.api.RetrofitClient
 import com.example.solutionchallenge.api.UserProfileRequest
 import kotlinx.coroutines.launch
@@ -44,7 +45,9 @@ class UserInfoInputActivity : AppCompatActivity() {
 
         btnFemale.setOnClickListener {
             selectedGender = "female"
-            btnFemale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.orange_600))
+            btnFemale.setBackgroundTintList(ContextCompat.getColorStateList(this,
+                R.color.orange_600
+            ))
             btnMale.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.gray_300))
             checkAllInputs()
         }

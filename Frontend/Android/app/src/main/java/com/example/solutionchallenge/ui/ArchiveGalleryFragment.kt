@@ -1,4 +1,4 @@
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.solutionchallenge.R
 import com.example.solutionchallenge.api.RetrofitClient
 import kotlinx.coroutines.launch
 

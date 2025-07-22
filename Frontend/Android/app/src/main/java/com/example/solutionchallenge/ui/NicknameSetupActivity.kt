@@ -1,5 +1,5 @@
 // 🔥 NicknameSetupActivity.kt
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.example.solutionchallenge.R
 import com.example.solutionchallenge.api.NicknameRequest
 import com.example.solutionchallenge.api.RetrofitClient
 import com.example.solutionchallenge.api.TokenRequest

@@ -1,8 +1,9 @@
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.solutionchallenge.R
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart

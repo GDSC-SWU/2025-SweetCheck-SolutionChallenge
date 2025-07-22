@@ -1,4 +1,4 @@
-package com.example.solutionchallenge
+package com.example.solutionchallenge.ui
 
 import android.content.Context
 import android.net.Uri
@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.solutionchallenge.R
 import com.example.solutionchallenge.api.RetrofitClient
 import com.example.solutionchallenge.api.toMultipartBodyPart
 import kotlinx.coroutines.launch
