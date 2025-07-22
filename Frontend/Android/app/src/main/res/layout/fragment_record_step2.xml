@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     android:background="#FFFFFF">
 
@@ -10,24 +11,60 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- 📌 제목 -->
+        <!-- 제목 -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/are_you_sure_nyou_ate_this"
-            android:textSize="20sp"
+            android:text="Are You Sure\nYou Ate This?"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="30dp" />
 
-        <!-- 🍽 음식 리스트 -->
-        <LinearLayout
-            android:id="@+id/foodResultContainer"
+        <!-- TabLayout -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            android:layout_marginBottom="20dp">
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabBreakfast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Breakfast"/>
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabLunch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Lunch"/>
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabDinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Dinner"/>
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabSnack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Snack"/>
+        </com.google.android.material.tabs.TabLayout>
 
-        <!-- ➕ 추가 버튼 -->
+        <!-- 음식 리스트 RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/foodRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp" />
+
+        <!-- 추가 버튼 -->
         <Button
             android:id="@+id/btnAddMore"
             android:layout_width="wrap_content"
@@ -37,8 +74,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp" />
 
-
-        <!-- Next 버튼 프래그먼트에 연동 필요-->
         <Button
             android:id="@+id/btnNext"
             android:layout_width="match_parent"
