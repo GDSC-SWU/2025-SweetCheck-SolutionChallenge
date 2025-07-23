@@ -1,6 +1,7 @@
 package com.example.solutionchallenge.ui
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -61,6 +62,13 @@ class RecordStep3Fragment : Fragment() {
             }
             card.layoutParams = layoutParams
             container.addView(card)
+        }
+
+        view.findViewById<Button>(R.id.btnOk).setOnClickListener{
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            requireActivity().finish() // 현재 Activity 종료
         }
     }
 
@@ -127,6 +135,7 @@ class RecordStep3Fragment : Fragment() {
         }
         return card
     }
+
 }
 
 fun Int.dpToPx(context: Context): Int =
