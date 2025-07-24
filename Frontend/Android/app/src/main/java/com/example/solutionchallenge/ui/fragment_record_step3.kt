@@ -40,13 +40,6 @@ class RecordStep3Fragment : Fragment() {
         fun calcTotalSugar(items: List<FoodItem>): Float =
             items.sumOf { it.sugar.toDouble() }.toFloat()
 
-        // TODO: fast api에서 전달받은 당류가 몇 그램 기준인지 확인 후 계산 거쳐야 함
-        fun calcRiskLevel(total: Float): String = when {
-            total > 15f -> "Excess"   // 과다
-            total > 8f -> "Proper"   // 적정
-            else         -> "Less"     // 부족
-        }
-
         listOf(
             Triple("Breakfast", breakfastList, calcTotalSugar(breakfastList)),
             Triple("Lunch", lunchList, calcTotalSugar(lunchList)),
@@ -71,6 +64,12 @@ class RecordStep3Fragment : Fragment() {
             requireActivity().finish() // 현재 Activity 종료
         }
     }
+    // TODO: fast api에서 전달받은 당류가 몇 그램 기준인지 확인 후 계산 거쳐야 함
+    fun calcRiskLevel(total: Float): String = when {
+        total > 15f -> "Excess"   // 과다
+        total > 5f -> "Proper"   // 적정
+        else         -> "Less"     // 부족
+    }
 
     private fun createMealCard(
         mealTitle: String,
@@ -88,6 +87,7 @@ class RecordStep3Fragment : Fragment() {
 
         // 제목
         titleView.text = mealTitle
+        riskText.text = calcRiskLevel(totalSugar)
 
         // 음식 목록
         items.forEach { item ->

@@ -111,9 +111,9 @@ class RecordStep2Fragment : Fragment() {
                 putSerializable("finalDinner",    ArrayList(dinnerList))
                 putSerializable("finalSnack",     ArrayList(snackList))
                 putString("mealId",       arguments?.getString("mealId"))
-                putString("mealType", arguments?.getString("mealType"))         // ✅ Step1에서 넘긴 끼니
-                putString("mealDateTime", arguments?.getString("mealDateTime")) // ✅ Step1에서 넘긴 날짜
-                putString("imageUrl", arguments?.getString("imageUrl"))         // ✅ Step1에서 넘긴 이미지 URL
+                putString("mealType", arguments?.getString("mealType"))         // Step1에서 넘긴 끼니
+                putString("mealDateTime", arguments?.getString("mealDateTime")) // Step1에서 넘긴 날짜
+                putString("imageUrl", arguments?.getString("imageUrl"))         // Step1에서 넘긴 이미지 URL
             }
 
             parentFragmentManager.beginTransaction()
