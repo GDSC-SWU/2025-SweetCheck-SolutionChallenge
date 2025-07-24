@@ -10,7 +10,7 @@ object FastApiRetrofitClient {
     private const val BASE_URL = "https://sweetcheck-backend-869251702908.us-central1.run.app/"
 
     private val logging = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY // 요청/응답 전체 로그 출력
+        level = HttpLoggingInterceptor.Level.HEADERS// 요청/응답 전체 로그 출력
     }
 
     private val client = OkHttpClient.Builder()
