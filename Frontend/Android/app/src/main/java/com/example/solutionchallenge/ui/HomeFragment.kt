@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.solutionchallenge.R
 import com.example.solutionchallenge.api.RetrofitClient
 import com.example.solutionchallenge.api.HomeDataResponse
-import com.example.solutionchallenge.data.DailyMealResponse // ✅ 추가!
+import com.example.solutionchallenge.data.DailyMealResponse
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
@@ -24,7 +24,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.coroutines.launch
-import java.time.LocalDate // ✅ 추가!
+import java.time.LocalDate
 
 class HomeFragment : Fragment() {
 
@@ -38,7 +38,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 상단 프로필 아이콘 → 로그아웃
         val profileIcon = view.findViewById<ImageButton>(R.id.profileIcon)
         profileIcon.setOnClickListener {
             logoutUser()
@@ -47,23 +46,14 @@ class HomeFragment : Fragment() {
         val prefs = requireActivity().getSharedPreferences("UserPrefs", AppCompatActivity.MODE_PRIVATE)
         val token = prefs.getString("token", "") ?: ""
 
-        // 1) 주간 그래프용 /api/home
-        lifecycleScope.launch {
-            try {
-                val response: HomeDataResponse =
-                    RetrofitClient.apiService.getHomeData("Bearer $token")
-
-                updateLineChart(view, response.dailyIntake)
-
-            } catch (e: Exception) {
-                //Toast.makeText(requireContext(), "그래프 로드 실패: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
+        // ✅ 더미 데이터로 그래프 갱신
+        val dummyData = listOf(15, 22, 28, 18, 35, 20, 12) // 월~일 섭취량 예시
+        updateLineChart(view, dummyData)
 
         // 2) 오늘 식사 요약용 /api/meals/{date}
         lifecycleScope.launch {
             try {
-                val today = LocalDate.now().toString() // ex: "2025-07-10"
+                val today = LocalDate.now().toString()
 
                 val dailyResponse: DailyMealResponse =
                     RetrofitClient.apiService.getDailyMeals(today)
@@ -71,7 +61,6 @@ class HomeFragment : Fragment() {
                 val todaySugar = dailyResponse.dailyTotalSugar
                 val meals = dailyResponse.meals
 
-                // TODO: UI에 오늘 당류/식사 정보 뿌리기 예시
                 println(" 오늘 총 당류: $todaySugar g")
                 meals.forEach { meal ->
                     println("🍽️ ${meal.mealType} / 총 당류: ${meal.totalSugar}g")
@@ -85,7 +74,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // 카드 클릭 이벤트
         val photoCard = view.findViewById<CardView>(R.id.photoCard)
         val menuCard = view.findViewById<CardView>(R.id.menuCard)
         val viewMoreButton = view.findViewById<CardView>(R.id.viewMoreCard)
@@ -110,7 +98,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // 그래프 갱신 함수
     private fun updateLineChart(view: View, intakeList: List<Int>) {
         val lineChart = view.findViewById<LineChart>(R.id.sugarLineChart)
 
@@ -155,7 +142,6 @@ class HomeFragment : Fragment() {
         lineChart.invalidate()
     }
 
-    // 로컬 로그아웃 함수
     private fun logoutUser() {
         val prefs = requireActivity().getSharedPreferences("UserPrefs", AppCompatActivity.MODE_PRIVATE)
         prefs.edit().clear().apply()

@@ -16,62 +16,62 @@
         android:background="@drawable/bg_card_proper"
         android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:orientation="vertical">
-
-        <!-- 끼니 제목 -->
-        <TextView
-            android:id="@+id/mealTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Breakfast"
-            android:textSize="18sp"
-            android:fontFamily="@font/nanum_bold"
-            android:layout_marginBottom="20dp" />
-
-        <!-- 음식 리스트 -->
-        <LinearLayout
-            android:id="@+id/foodListLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-        <!-- 구분선 -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="#DDDDDD" />
-
-        <!-- 위험도 + 총 당류 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:padding="16dp"
+            android:orientation="vertical">
 
+            <!-- 끼니 제목 -->
             <TextView
-                android:id="@+id/riskLevelText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Proper"
-                android:textSize="16sp"
-                android:fontFamily="@font/nanum_bold"
-                android:textColor="@color/green" />
-
-            <TextView
-                android:id="@+id/totalSugarText"
+                android:id="@+id/mealTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="16g"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="Breakfast"
+                android:textSize="18sp"
+                android:fontFamily="@font/nanum_bold"
+                android:layout_marginBottom="20dp" />
+
+            <!-- 음식 리스트 -->
+            <LinearLayout
+                android:id="@+id/foodListLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <!-- 구분선 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="#DDDDDD" />
+
+            <!-- 위험도 + 총 당류 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/riskLevelText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Proper"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/nanum_bold"
+                    android:textColor="@color/green" />
+
+                <TextView
+                    android:id="@+id/totalSugarText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16g"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
     </FrameLayout>
 </androidx.cardview.widget.CardView>

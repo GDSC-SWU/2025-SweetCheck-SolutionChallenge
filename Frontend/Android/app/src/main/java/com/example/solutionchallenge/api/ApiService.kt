@@ -82,9 +82,10 @@ interface ApiService {
     ): DailyMealResponse
 
     // ✅ 식단 확정
-    @PUT("/api/meals/{mealId}/confirm")
+    @POST("/api/meals/{mealId}/confirm")
     suspend fun confirmMeal(
         @Path("mealId") mealId: String,
-        @Body body: ConfirmRequest
+        @Header("Authorization") authHeader: String
     ): Response<Unit>
+
 }

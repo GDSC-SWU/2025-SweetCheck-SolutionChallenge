@@ -32,22 +32,53 @@ class RecordStep1Fragment : Fragment() {
     ): View = inflater.inflate(R.layout.fragment_record_step1, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<Button>(R.id.btnBreakfast).setOnClickListener {
+        val btnBreakfast = view.findViewById<Button>(R.id.btnBreakfast)
+        val btnLunch = view.findViewById<Button>(R.id.btnLunch)
+        val btnDinner = view.findViewById<Button>(R.id.btnDinner)
+        val btnSnack = view.findViewById<Button>(R.id.btnSnack)
+
+        // ⛔️ 처음엔 식사 버튼 비활성화
+        btnBreakfast.isEnabled = false
+        btnLunch.isEnabled = false
+        btnDinner.isEnabled = false
+        btnSnack.isEnabled = false
+
+        // ✅ 날짜 선택하면 버튼 활성화
+        val dateContainer = view.findViewById<LinearLayout>(R.id.dateIconContainer)
+        for (i in 0 until dateContainer.childCount) {
+            val dateItem = dateContainer.getChildAt(i)
+            dateItem.setOnClickListener {
+                // 식사 버튼 활성화
+                btnBreakfast.isEnabled = true
+                btnLunch.isEnabled = true
+                btnDinner.isEnabled = true
+                btnSnack.isEnabled = true
+
+                // 선택 배경 변경
+                for (j in 0 until dateContainer.childCount) {
+                    dateContainer.getChildAt(j).setBackgroundResource(R.drawable.bg_date_item)
+                }
+                dateItem.setBackgroundResource(R.drawable.bg_date_item_selected)
+
+            }
+        }
+
+        btnBreakfast.setOnClickListener {
             currentMealType = "morning"
             openGallery()
         }
 
-        view.findViewById<Button>(R.id.btnLunch).setOnClickListener {
+        btnLunch.setOnClickListener {
             currentMealType = "lunch"
             openGallery()
         }
 
-        view.findViewById<Button>(R.id.btnDinner).setOnClickListener {
+        btnDinner.setOnClickListener {
             currentMealType = "dinner"
             openGallery()
         }
 
-        view.findViewById<Button>(R.id.btnSnack).setOnClickListener {
+        btnSnack.setOnClickListener {
             currentMealType = "snack"
             openGallery()
         }
@@ -97,7 +128,8 @@ class RecordStep1Fragment : Fragment() {
 
     private fun checkIfAllSelected() {
         val nextButton = requireView().findViewById<Button>(R.id.nextButton)
-        nextButton.isEnabled = morningUri != null && lunchUri != null && dinnerUri != null && snackUri != null
+        nextButton.isEnabled =
+            morningUri != null && lunchUri != null && dinnerUri != null && snackUri != null
     }
 
     private suspend fun sendImagesToServer() = withContext(Dispatchers.IO) {
@@ -149,6 +181,7 @@ class RecordStep1Fragment : Fragment() {
                     val bundle = Bundle().apply {
                         putSerializable("analyzeResult", resultJson)
                         putSerializable("foodList", foodList)
+                       // putString("mealId", it.mealId) // ✅ mealId 포함
                     }
 
                     withContext(Dispatchers.Main) {

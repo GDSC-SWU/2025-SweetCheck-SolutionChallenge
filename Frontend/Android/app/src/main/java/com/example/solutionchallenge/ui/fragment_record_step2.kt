@@ -103,17 +103,24 @@ class RecordStep2Fragment : Fragment() {
         }
 
         // 6) Next 버튼: final 데이터 넘기기
+// Step2Fragment.kt 중 btnNext 클릭 리스너 내부 수정
         view.findViewById<Button>(R.id.btnNext).setOnClickListener {
             val bundle = Bundle().apply {
                 putSerializable("finalBreakfast", ArrayList(breakfastList))
                 putSerializable("finalLunch",     ArrayList(lunchList))
                 putSerializable("finalDinner",    ArrayList(dinnerList))
                 putSerializable("finalSnack",     ArrayList(snackList))
+                putString("mealId",       arguments?.getString("mealId"))
+                putString("mealType", arguments?.getString("mealType"))         // ✅ Step1에서 넘긴 끼니
+                putString("mealDateTime", arguments?.getString("mealDateTime")) // ✅ Step1에서 넘긴 날짜
+                putString("imageUrl", arguments?.getString("imageUrl"))         // ✅ Step1에서 넘긴 이미지 URL
             }
+
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, RecordStep3Fragment().apply { arguments = bundle })
                 .addToBackStack(null)
                 .commit()
         }
+
     }
 }
