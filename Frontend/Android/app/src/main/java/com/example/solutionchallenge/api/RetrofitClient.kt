@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    private const val BASE_URL = "http://34.47.80.132:8080/"
+    private const val BASE_URL = "https://34.47.80.132.nip.io/"
 
     // 👇 타임아웃 설정 추가 (30초)
     private val client = OkHttpClient.Builder()

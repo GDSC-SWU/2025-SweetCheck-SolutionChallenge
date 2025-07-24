@@ -19,7 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_square"
         android:supportsRtl="true"
         android:theme="@style/Theme.Solutionchallenge"
-        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
 
         <!-- SplashActivity: 로고 화면 -->
