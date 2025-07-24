@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,27 +26,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // CSRF 비활성화 (API 전용 서버)
                 .csrf(csrf -> csrf.disable())
 
-                // 요청별 접근 허용 설정
+                // 세션 사용 안 함 (토큰 기반 인증)
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                // 인증 없이 허용할 엔드포인트
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/", "/login", "/oauth2/**",              // 웹용 인증 경로
-                                "/api/users/login", "/api/users/profile"  // 로그인/프로필 등록용 API는 인증 없이 허용
+                                "/api/users/login",
+                                "/api/users/signup",
+                                "/api/users/profile"
                         ).permitAll()
-                        .anyRequest().authenticated()                 // 웹 페이지 요청도 인증 필요
+                        .anyRequest().authenticated()
                 )
 
-                // OAuth2 로그인 설정 (웹 클라이언트 전용)
-                .oauth2Login(oauth -> oauth
-                        .loginPage("/login") // 직접 만든 로그인 페이지로 리디렉트
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOAuth2UserService)
-                        )
-                )
+                // 기본 폼 로그인, HTTP Basic 인증 비활성화
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
 
-                // Firebase 토큰 필터 추가
-                .addFilterBefore(firebaseTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                // Firebase 토큰 필터 등록
+                .addFilterBefore(
+                        new FirebaseTokenFilter(firebaseAuth, userDetailsService),
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }
